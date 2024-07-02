@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TODO.Domain.Repositories;
 using TODO.Domain.Services;
 using TODO.Infrastructure.Database;
+using TODO.Infrastructure.Database.Repositories;
 using TODO.Infrastructure.Email;
 
 namespace TODO.Infrastructure
@@ -15,6 +17,9 @@ namespace TODO.Infrastructure
             {
                 config.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+
             services.AddTransient<IEmailService, SendGridEmailService>();
         }
     }
