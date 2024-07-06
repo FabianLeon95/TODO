@@ -1,4 +1,5 @@
 using TODO.Infrastructure;
+using TODO.Application;
 
 namespace TODO.Api
 {
@@ -16,6 +17,7 @@ namespace TODO.Api
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddApplication(builder.Configuration);
 
             var app = builder.Build();
 

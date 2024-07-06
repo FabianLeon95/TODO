@@ -6,33 +6,33 @@ namespace TODO.Infrastructure.Database.Repositories
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly TodoDbContext DbContext;
-        private readonly DbSet<TEntity> _entitySet;
+        protected readonly DbSet<TEntity> EntitySet;
 
         public Repository(TodoDbContext dbContext)
         {
             DbContext = dbContext;
-            _entitySet = dbContext.Set<TEntity>();
+            EntitySet = dbContext.Set<TEntity>();
         }
 
         public IQueryable<TEntity> GetAll()
         {
-            return _entitySet.AsNoTracking();
+            return EntitySet.AsNoTracking();
         }
 
-        public async Task<TEntity?> GetByIdAsync(int id)
+        public virtual async Task<TEntity?> GetByIdAsync(int id)
         {
-            return await _entitySet.FindAsync(id);
+            return await EntitySet.FindAsync(id);
         }
 
         public async Task CreateAsync(TEntity entity)
         {
-            await _entitySet.AddAsync(entity);
+            await EntitySet.AddAsync(entity);
             await DbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(TEntity entity)
         {
-            _entitySet.Update(entity);
+            EntitySet.Update(entity);
             await DbContext.SaveChangesAsync();
         }
 
@@ -41,7 +41,7 @@ namespace TODO.Infrastructure.Database.Repositories
             var entity = await DbContext.Set<TEntity>().FindAsync(id);
             if (entity is not null)
             {
-                _entitySet.Remove(entity);
+                EntitySet.Remove(entity);
                 await DbContext.SaveChangesAsync();
             }
 

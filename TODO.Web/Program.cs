@@ -1,3 +1,7 @@
+using Microsoft.Extensions.Options;
+using TODO.Web.Services;
+using TODO.Web.Settings;
+
 namespace TODO.Web
 {
     public class Program
@@ -8,6 +12,19 @@ namespace TODO.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Settings
+            builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
+
+            // Services
+            builder.Services.AddTransient<TodoListService>();
+
+            //HttpClients
+            builder.Services.AddHttpClient<TodoListService>((serviceProvider, client) =>
+            {
+                var settings = serviceProvider.GetRequiredService<IOptions<ApiSettings>>().Value;
+                client.BaseAddress = new Uri(settings.BaseUrl);
+            });
 
             var app = builder.Build();
 
