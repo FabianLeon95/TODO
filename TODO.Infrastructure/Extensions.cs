@@ -13,7 +13,7 @@ namespace TODO.Infrastructure
         {
             services.AddDbContext<TodoDbContext>(config =>
             {
-                config.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                config.UseSqlServer(configuration.GetConnectionString("TODOConnection"));
             });
             services.AddTransient<IEmailService, SendGridEmailService>();
         }
