@@ -6,7 +6,7 @@ namespace TODO.Domain.Entities
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
-        public Category Category { get; set; } = Category.Home;
+        public string Descripcion { get; set; } = string.Empty;
 
         public ICollection<TodoItem> TodoItems { get; set; } = [];
     }
